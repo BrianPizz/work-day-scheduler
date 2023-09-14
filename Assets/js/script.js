@@ -35,5 +35,8 @@ $(document).ready(function () {
     })
   };
   //display the current date in the header of the page.
-  $('#currentDay').text(dayjs().format("dddd D/M/YYYY h:mma"));
+  setInterval( function(){
+    $('#currentDay').text(dayjs().format("dddd D/M/YYYY h:mma"));
+  }, 1000);
+  
 });
