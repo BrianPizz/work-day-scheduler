@@ -8,17 +8,14 @@ $(document).ready(function () {
     //both event and hour saved in local storage
     localStorage.setItem(time, plan);
   });
-
+  checkTime()
   function checkTime() {
     //current hour via Day.js
     var currentHour = dayjs().format('H');
-    console.log(currentHour);
     // each time block is targeted 
     $('.time-block').each(function () {
       //convert hour id to an int
       var planHour = parseInt($(this).attr("id").split('hour-').join(''));
-
-      console.log(planHour);
       //compare hour id and current hour and apply the past, present, or future class
       //if classes arent removed will they add infinitely?
       if (planHour < currentHour) {
@@ -38,7 +35,6 @@ $(document).ready(function () {
       $(this).children('.description').val(localStorage.getItem($(this).attr('id')));
     })
   };
-  checkTime()
   //display the current date in the header of the page.
   $('#currentDay').text(dayjs().format("dddd D/M/YYYY h:mma"));
 });
