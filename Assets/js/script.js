@@ -17,7 +17,6 @@ $(document).ready(function () {
       //convert hour id to an int
       var planHour = parseInt($(this).attr("id").split('hour-').join(''));
       //compare hour id and current hour and apply the past, present, or future class
-      //if classes arent removed will they add infinitely?
       if (planHour < currentHour) {
         $(this).addClass('past');
         $(this).removeClass('present');
