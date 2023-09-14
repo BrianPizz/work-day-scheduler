@@ -1,56 +1,44 @@
-// Code isn't run until the browser has finished rendering all the elements
-// in the html.
+// Code runs when the DOM has finished rendering
 $(document).ready(function () {
   //listener for click events on the save button
   $('.saveBtn').on('click', function () {
-    //Dom traversal used to get event text and hour ID
+    //Dom traversal used to get plan text and hour ID
     var plan = $(this).siblings('.description').val();
     var time = $(this).parent().attr('id');
     //both event and hour saved in local storage
-    localStorage.setItem('plan', plan);
-    localStorage.setItem('time', time);
+    localStorage.setItem(time, plan);
   });
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
+
   function checkTime() {
-
+    //current hour via Day.js
     var currentHour = dayjs().format('H');
-
     console.log(currentHour);
-
+    // each time block is targeted 
     $('.time-block').each(function () {
-
-      var planHour = parseInt($(this).attr("id").split('hour-').join());
+      //convert hour id to an int
+      var planHour = parseInt($(this).attr("id").split('hour-').join(''));
 
       console.log(planHour);
-
-      if (planHour > currentHour) {
+      //compare hour id and current hour and apply the past, present, or future class
+      //if classes arent removed will they add infinitely?
+      if (planHour < currentHour) {
         $(this).addClass('past');
-      } else if (planHour < currentHour) {
+        $(this).removeClass('present');
+        $(this).removeClass('future');
+      } else if (planHour > currentHour) {
         $(this).addClass('future');
+        $(this).removeClass('present');
+        $(this).removeClass('past');
       } else {
         $(this).addClass('present');
+        $(this).removeClass('past');
+        $(this).removeClass('future');
       };
-
+      //any user input that was saved in localStorage is set to description value
+      $(this).children('.description').val(localStorage.getItem($(this).attr('id')));
     })
   };
-
   checkTime()
-
-
-
-
-  //var planHourDigit = parseInt(planHour);
-
-
-
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
+  //display the current date in the header of the page.
   $('#currentDay').text(dayjs().format("dddd D/M/YYYY h:mma"));
 });
